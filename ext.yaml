@@ -1,0 +1,2 @@
+extensions:
+  - name: github.com/postak/fn-ext/proxima_auth
