@@ -137,6 +137,7 @@ func (h *ProximaCheckHeader) Handle(next http.Handler) http.Handler {
 			return
 		}
 
+		
 		fmt.Println("auth succeeded!")
 		r = r.WithContext(context.WithValue(r.Context(), contextKey("user"), "I'm in!"))
 		next.ServeHTTP(w, r)
