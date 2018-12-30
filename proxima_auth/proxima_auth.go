@@ -83,9 +83,10 @@ func (h *ProximaCheckHeader) Handle(next http.Handler) http.Handler {
 		} else if r.Header.Get("fn_authorization") != "" {
 			// some service filter Authorization header so accept
 			// also custom header fn_authorization
+			authHeader = r.Header.Get("fn_authorization")
 			fmt.Printf("use header fn_authorization=%s\n", authHeader)
 		} else {
-			fmt.Printf("authorization failed")
+			fmt.Println("authorization failed. Found neither Authorization nor fn_authorization")
 			w.Header().Set("Content-Type", "application/json")
 			w.WriteHeader(http.StatusUnauthorized)
 			m2 := map[string]string{"message": "Invalid token use either Authorization or fn_authorization."}
