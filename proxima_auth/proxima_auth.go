@@ -39,8 +39,11 @@ func (e *proximaPlugin) Name() string {
 }
 
 func (e *proximaPlugin) Setup(s fnext.ExtServer) error {
+	fmt.Println("LUCA - Start Setup.")
 	s.AddCallListener(&Proxima{})
+	fmt.Println("LUCA - Setup - after AddCallListener")
 	s.AddRootMiddleware(&ProximaCheckHeader{})
+	fmt.Println("LUCA - End Setup.")
 
 	return nil
 }
@@ -62,6 +65,7 @@ func (l *Proxima) AfterCall(ctx context.Context, call *models.Call) error {
 type ProximaCheckHeader struct{}
 
 func (h *ProximaCheckHeader) Handle(next http.Handler) http.Handler {
+	fmt.Println("LUCA - Handle.")
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		fmt.Println("Proxima Middleware called")
 		fmt.Println("fnToken=", fnToken)
@@ -138,7 +142,6 @@ func (h *ProximaCheckHeader) Handle(next http.Handler) http.Handler {
 			return
 		}
 
-		
 		fmt.Println("auth succeeded!")
 		r = r.WithContext(context.WithValue(r.Context(), contextKey("user"), "I'm in!"))
 		next.ServeHTTP(w, r)
